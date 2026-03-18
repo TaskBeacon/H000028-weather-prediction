@@ -1,0 +1,15 @@
+id: H000028
+slug: weather-prediction
+title: Weather Prediction Task
+acquisition: behavior
+variant: html
+cognitive_domain:
+  - probabilistic-learning
+  - feedback-learning
+  - decision-making
+maturity: prototype
+version:
+  release_tag: "0.1.0"
+contracts:
+  psyflow_web_taps: v0.1.0
+maintainer: []

@@ -1,0 +1,313 @@
+subinfo_fields:
+  - name: subject_id
+    type: int
+    constraints:
+      min: 101
+      max: 999
+      digits: 3
+
+subinfo_mapping:
+  subject_id: Subject ID (3 digits)
+  Participant Information: Participant Information
+  registration_failed: Registration failed
+  registration_successful: Registration successful
+  invalid_input: "{field} is invalid"
+
+window:
+  size: [1280, 720]
+  units: pix
+  screen: 0
+  bg_color: black
+  fullscreen: true
+  fullscreen_lock_escape: true
+  monitor_width_cm: 35.5
+  monitor_distance_cm: 60
+
+task:
+  task_name: weather_prediction_preview
+  save_path: ./outputs/human
+  total_blocks: 2
+  total_trials: 120
+  trial_per_block: 60
+  conditions: [probabilistic_classification]
+  key_list: ["f", "j", "space"]
+  sun_key: f
+  rain_key: j
+  seed_mode: same_across_sub
+  overall_seed: 2025
+  delta: 1
+  language: Chinese
+  voice_name: zh-CN-YunyangNeural
+  voice_enabled: false
+  input_mode: keyboard
+  hide_cursor: true
+  force_quit_enabled: true
+  force_quit_shortcut: ctrl+q
+  weather_labels:
+    sun: Sunny
+    rain: Rainy
+  card_labels: [Cue Card 1, Cue Card 2, Cue Card 3, Cue Card 4]
+  card_state_labels:
+    on: Present
+    off: Absent
+
+timing:
+  fixation_duration: [0.3, 0.6]
+  cue_duration: 0.8
+  decision_deadline: 2.5
+  feedback_duration: 1.0
+  iti_duration: [0.3, 0.6]
+
+stimuli:
+  instruction_text:
+    type: text
+    text: |
+      Weather Prediction Task
+
+      In each trial, 4 cue cards are shown, and some of them are present.
+      Predict the weather from the card combination:
+      F = Sunny, J = Rainy.
+
+      Card-to-weather mappings are probabilistic, not deterministic.
+      Learn from feedback and improve your prediction strategy.
+
+      Press Space to begin.
+    color: white
+    height: 30
+    wrapWidth: 1080
+    pos: [0, 60]
+    font: SimHei
+
+  fixation:
+    type: text
+    text: "+"
+    color: "#ebebeb"
+    height: 52
+    pos: [0, 0]
+    font: SimHei
+
+  cue_title:
+    type: text
+    text: "Observe the cue cards in this trial"
+    color: "#f2f2ea"
+    height: 34
+    wrapWidth: 1040
+    pos: [0, 305]
+    font: SimHei
+
+  score_text:
+    type: text
+    text: "Current score: {current_score}"
+    color: "#ccf2db"
+    height: 30
+    pos: [0, 255]
+    font: SimHei
+
+  cue_hint:
+    type: text
+    text: "Card states are shown below. Prepare your weather prediction."
+    color: "#dbdbdb"
+    height: 24
+    wrapWidth: 1100
+    pos: [0, -210]
+    font: SimHei
+
+  cue_card_template:
+    type: text
+    text: "Card\nState"
+    color: "#f2f2f2"
+    height: 34
+    wrapWidth: 240
+    pos: [0, 70]
+    font: SimHei
+
+  decision_prompt:
+    type: text
+    text: "Predict the weather from this card combination"
+    color: "#faeb9e"
+    height: 30
+    wrapWidth: 1000
+    pos: [0, -255]
+    font: SimHei
+
+  key_hint:
+    type: text
+    text: "Keys: {sun_key}={sun_label}, {rain_key}={rain_label}"
+    color: "#ebebeb"
+    height: 26
+    wrapWidth: 980
+    pos: [0, -295]
+    font: SimHei
+
+  feedback_correct:
+    type: text
+    text: |
+      Correct prediction
+      Your choice: {predicted_weather_cn}
+      Actual weather: {actual_weather_cn}
+      Score change: {score_delta_signed}
+      Current score: {score_after}
+    color: "#b3f5b3"
+    height: 30
+    wrapWidth: 980
+    pos: [0, 30]
+    font: SimHei
+
+  feedback_incorrect:
+    type: text
+    text: |
+      Incorrect prediction
+      Your choice: {predicted_weather_cn}
+      Actual weather: {actual_weather_cn}
+      Score change: {score_delta_signed}
+      Current score: {score_after}
+    color: "#ffcab3"
+    height: 30
+    wrapWidth: 980
+    pos: [0, 30]
+    font: SimHei
+
+  feedback_timeout:
+    type: text
+    text: |
+      No response within deadline
+      Actual weather: {actual_weather_cn}
+      Current score: {score_after}
+    color: "#ff8080"
+    height: 32
+    wrapWidth: 980
+    pos: [0, 20]
+    font: SimHei
+
+  block_break:
+    type: text
+    text: |
+      Block {block_num}/{total_blocks} complete
+
+      Accuracy: {accuracy}
+      Timeouts: {timeout_count}
+      Mean RT: {mean_rt_ms} ms
+      Sunny-choice rate: {sun_prediction_rate}
+      Block net score: {net_score_signed}
+      Total score: {score_end}
+
+      Press Space to continue.
+    color: white
+    height: 26
+    wrapWidth: 1080
+    pos: [0, 0]
+    font: SimHei
+
+  good_bye:
+    type: text
+    text: |
+      Task complete
+
+      Total trials: {total_trials}
+      Valid responses: {response_count}
+      Overall accuracy: {accuracy}
+      Timeouts: {timeout_count}
+      Mean RT: {mean_rt_ms} ms
+      Sunny-choice rate: {sun_prediction_rate}
+      Net score: {net_score_signed}
+      Final score: {score_end}
+
+      Press Space to exit.
+    color: white
+    height: 26
+    wrapWidth: 1080
+    pos: [0, 0]
+    font: SimHei
+
+triggers:
+  map:
+    exp_onset: 1
+    exp_end: 2
+    block_onset: 10
+    block_end: 11
+    fixation_onset: 20
+    cue_onset: 30
+    decision_onset: 40
+    choice_sun: 41
+    choice_rain: 42
+    choice_timeout: 43
+    feedback_correct: 50
+    feedback_incorrect: 51
+    feedback_timeout: 52
+    iti_onset: 60
+
+  driver:
+    type: serial_url
+    url: loop://
+    baudrate: 115200
+
+  timing:
+    post_delay_ms: 1
+
+  policy:
+    strict: false
+
+controller:
+  initial_score: 0
+  correct_delta: 1
+  incorrect_delta: -1
+  timeout_delta: 0
+  random_seed: null
+  enable_logging: true
+  patterns:
+    - pattern_id: P01
+      cards: [1, 0, 0, 0]
+      sun_probability: 0.76
+      weight: 1.0
+    - pattern_id: P02
+      cards: [0, 1, 0, 0]
+      sun_probability: 0.57
+      weight: 1.0
+    - pattern_id: P03
+      cards: [0, 0, 1, 0]
+      sun_probability: 0.43
+      weight: 1.0
+    - pattern_id: P04
+      cards: [0, 0, 0, 1]
+      sun_probability: 0.20
+      weight: 1.0
+    - pattern_id: P05
+      cards: [1, 1, 0, 0]
+      sun_probability: 0.67
+      weight: 1.0
+    - pattern_id: P06
+      cards: [1, 0, 1, 0]
+      sun_probability: 0.60
+      weight: 1.0
+    - pattern_id: P07
+      cards: [1, 0, 0, 1]
+      sun_probability: 0.48
+      weight: 1.0
+    - pattern_id: P08
+      cards: [0, 1, 1, 0]
+      sun_probability: 0.50
+      weight: 1.0
+    - pattern_id: P09
+      cards: [0, 1, 0, 1]
+      sun_probability: 0.38
+      weight: 1.0
+    - pattern_id: P10
+      cards: [0, 0, 1, 1]
+      sun_probability: 0.32
+      weight: 1.0
+    - pattern_id: P11
+      cards: [1, 1, 1, 0]
+      sun_probability: 0.59
+      weight: 1.0
+    - pattern_id: P12
+      cards: [1, 1, 0, 1]
+      sun_probability: 0.51
+      weight: 1.0
+    - pattern_id: P13
+      cards: [1, 0, 1, 1]
+      sun_probability: 0.46
+      weight: 1.0
+    - pattern_id: P14
+      cards: [0, 1, 1, 1]
+      sun_probability: 0.40
+      weight: 1.0
